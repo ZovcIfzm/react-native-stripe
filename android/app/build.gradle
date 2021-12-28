@@ -129,6 +129,10 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
+    
+    dexOptions {
+        javaMaxHeapSize "2G"
+    }
 
     defaultConfig {
         applicationId "com.stripereactnative"

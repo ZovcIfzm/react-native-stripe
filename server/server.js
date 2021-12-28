@@ -6,6 +6,19 @@ const stripe = require('stripe')(process.env.secret_key); // https://stripe.com/
 app.use(express.static('.'));
 app.use(express.json());
 // An endpoint for your checkout
+
+app.get('/', function (req, res) {
+  console.log('home');
+  res.render('index', {});
+});
+
+app.get('/test', async (req, res) => {
+  console.log('tested!');
+  res.send({
+    wha: 'hi',
+  });
+});
+
 app.post('/checkout', async (req, res) => {
   // Create or retrieve the Stripe Customer object associated with your user.
   let customer = await stripe.customers.create(); // This example just creates a new Customer every time
@@ -18,11 +31,10 @@ app.post('/checkout', async (req, res) => {
 
   // Create a PaymentIntent with the payment amount, currency, and customer
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 973,
+    amount: 52,
     currency: 'usd',
     customer: customer.id,
   });
-
   // Send the object keys to the client
   res.send({
     publishableKey: process.env.publishable_key, // https://stripe.com/docs/keys#obtain-api-keys

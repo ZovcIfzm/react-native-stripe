@@ -9,8 +9,8 @@ import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import PaymentScreen from './screens/paymentScreen';
+import {publishableKey} from './env.js';
 const App = () => {
-  const publishableKey = 'pk_test_AtN3VLAFhzbLNqf3Y9z50iNQ';
   return (
     <StripeProvider publishableKey={publishableKey}>
       <PaymentScreen />

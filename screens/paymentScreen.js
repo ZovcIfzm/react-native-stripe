@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Button, View} from 'react-native';
+import {StyleSheet, Button, View, Alert} from 'react-native';
 import {
   CardField,
   CardFieldInput,
   useStripe,
 } from '@stripe/stripe-react-native';
 
+import {publishableKey} from './env.js';
+
 export default PaymentScreen = () => {
   const [card, setCard] = useState(CardFieldInput.Details | null);
   const {confirmPayment, handleCardAction} = useStripe();
-  const API_URL = 'http://localhost:8000';
+  const API_URL = 'http:/10.0.2.2:8000';
   const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const [loading, setLoading] = useState(false);
 
@@ -34,13 +36,14 @@ export default PaymentScreen = () => {
       customerId: customer,
       customerEphemeralKeySecret: ephemeralKey,
       paymentIntentClientSecret: paymentIntent,
+      merchantDisplayName: 'Merchant Name',
     });
     if (!error) {
       setLoading(true);
     }
   };
   const openPaymentSheet = async () => {
-    const {error} = await presentPaymentSheet({clientSecret});
+    const {error} = await presentPaymentSheet({publishableKey});
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
