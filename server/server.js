@@ -9,7 +9,10 @@ app.use(express.json());
 
 app.get('/', function (req, res) {
   console.log('home');
-  res.render('index', {});
+
+  res.send({
+    page: 'home',
+  });
 });
 
 app.get('/test', async (req, res) => {
@@ -20,6 +23,8 @@ app.get('/test', async (req, res) => {
 });
 
 app.post('/checkout', async (req, res) => {
+  var price = Number(req.body.price);
+
   // Create or retrieve the Stripe Customer object associated with your user.
   let customer = await stripe.customers.create(); // This example just creates a new Customer every time
 
@@ -31,7 +36,7 @@ app.post('/checkout', async (req, res) => {
 
   // Create a PaymentIntent with the payment amount, currency, and customer
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 52,
+    amount: price,
     currency: 'usd',
     customer: customer.id,
   });

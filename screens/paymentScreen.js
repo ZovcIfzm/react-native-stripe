@@ -6,12 +6,14 @@ import {
   useStripe,
 } from '@stripe/stripe-react-native';
 
-import {publishableKey} from './env.js';
+import {publishableKey} from '../env.js';
 
 export default PaymentScreen = () => {
   const [card, setCard] = useState(CardFieldInput.Details | null);
   const {confirmPayment, handleCardAction} = useStripe();
-  const API_URL = 'http:/10.0.2.2:8000';
+  //const API_URL = 'http:/10.0.2.2:8000';
+  //const API_URL = 'https://payment-processing-test.uc.r.appspot.com';
+  const API_URL = 'https://avenu-payment-processing.uc.r.appspot.com';
   const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const [loading, setLoading] = useState(false);
 
@@ -21,6 +23,7 @@ export default PaymentScreen = () => {
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({price: 53}),
     });
     const {paymentIntent, ephemeralKey, customer} = await response.json();
     return {
